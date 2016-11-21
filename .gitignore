@@ -28,7 +28,7 @@
 *.out
 *.app
 *.txt
-.idea
+.idea/
 nbproject
 *Makefile
 
