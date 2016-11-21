@@ -24,7 +24,7 @@
 #include <ctime>
 #include <limits>
 #include <cmath>
-#include <stdlib.h>
+
 
 //Méthode permettant de vider le Buffer
 #define VIDER_BUFFER while(cin.get() != '\n')
@@ -35,6 +35,8 @@ using namespace std;
 int saisie(int borne_inf, int borne_sup, string textSaisie);
 
 bool recommencer(char OUI, char NON);
+
+int calculAleatoire(const int maxValue);
 
 
 int main() {
@@ -83,10 +85,9 @@ int calculAleatoire(const int maxValue) {
 	srand(time(0)); //use current time as seed for random generator
 
 	int random_variable = rand();
+
 	std::cout << "Random value on [0 " << maxValue << "]: "
 	          << random_variable << '\n';
-}
-
 
 }
 
