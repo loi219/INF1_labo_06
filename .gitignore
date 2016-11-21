@@ -31,3 +31,11 @@
 .idea
 nbproject
 *Makefile
+
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuratio
