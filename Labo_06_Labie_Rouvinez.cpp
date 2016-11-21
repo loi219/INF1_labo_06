@@ -29,6 +29,38 @@ bool recommencer(char OUI, char NON);
 
 
 int main() {
+   
+   const char OUI = 'O';
+   const char NON = 'N';
+   
+   const int LONG_CIRC_MIN  =  0; 
+   const int LONG_CIRC_MAX  =  1000; 
+   
+   const int AMPLI_MIN  =  1; 
+   const int AMPLI_MAX  =  3; 
+   
+   const int LARG_ROUTE_MIN  =  3; 
+   const int LARG_ROUTE_MAX  =  10; 
+   
+   const int LARG_TOTALE_MIN  =  20; 
+   const int LARG_TOTALE_MAX  =  50; 
+   
+   
+   int longueurCircuit;
+   int amplituteVirage;
+   int largeurRoute;
+   int largeurTotale;
+   
+   do{
+      
+      
+      longueurCircuit = saisie(LONG_CIRC_MIN, LONG_CIRC_MAX, "Longueur Circuit [ 0 - 1000 ]: ");
+      amplituteVirage = saisie(AMPLI_MIN, AMPLI_MAX, "Amplitue [ 1 - 3 ] : ");
+      largeurRoute    = saisie(LARG_ROUTE_MIN, LARG_ROUTE_MAX, "Largueur Route [ 3 - 10 ] : ");
+      largeurTotale   = saisie(LARG_TOTALE_MIN, LARG_TOTALE_MAX, "Largeur Totale [ 20 - 50 ] : ");
+      
+      
+   }while(recommencer(OUI,NON));
 
    
    
@@ -76,6 +108,8 @@ bool recommencer(char OUI, char NON) {
       cout << "Voulez vous recommencer ? [" << OUI << "/" << NON << "] : ";
       cin >> recommencer;
       VIDER_BUFFER;
+      
+      recommencer = toupper(recommencer);  //met le char entré en majuscule
 
       sortie = recommencer == OUI || recommencer == NON;
 
