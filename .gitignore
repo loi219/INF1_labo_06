@@ -28,6 +28,6 @@
 *.out
 *.app
 *.txt
-*.idea
-*nbproject
+.idea
+nbproject
 *Makefile
