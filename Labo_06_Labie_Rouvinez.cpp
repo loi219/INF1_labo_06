@@ -1,9 +1,9 @@
 /*
  -----------------------------------------------------------------------------------
- Laboratoire : <nn>
- Fichier     : <nom du fichier>.cpp
+ Laboratoire : Labo 06 Circuit
+ Fichier     : Labo_06_Labie_Rouvinez.cpp
  Auteur(s)   : <prénom> <nom>
- Date        : <jj.mm.aaaa>
+ Date        : 28.11.2016
 
  But         : <à compléter>
 
@@ -27,10 +27,13 @@
 using namespace std;
 
 
+string textSaisie(string texte, int borne_inf, int borne_sup, int espaceAlligne,
+                  int espaceBorne);
+
 int saisie(int borne_inf, int borne_sup, string textSaisie);
 
 void afficheCircuit(int espaceGauche, int espaceDroite, string route, int etapeCircuit,
-   int espaceCircuit, int espaceMetre, int frequenceMetre);
+                    int espaceCircuit, int espaceMetre, int frequenceMetre);
 
 int entierAleatoire(int borne_min, int borne_max);
 
@@ -56,7 +59,7 @@ int main() {
    
    const int FREQUENCE_METRE  =  10;
    
-   const int ESPACE_CIRCUIT   =  6;
+   const int ESPACE_CIRCUIT   =  0;
    
    
    int longueurCircuit;
@@ -96,7 +99,11 @@ int main() {
       espaceDroite      =  ceil(espaceSymetrique);
    
       espaceMetre       =  floor(log10(longueurCircuit))+1;
+      
+      
+      route  =  "";
    
+      
       for(int segmentRoute = 1; segmentRoute <= largeurRoute; segmentRoute++){
          route += "=";
       }
@@ -104,7 +111,7 @@ int main() {
       for(int etapeCircuit = LONG_CIRC_MIN; etapeCircuit <= longueurCircuit; etapeCircuit++){
       
          afficheCircuit(espaceGauche, espaceDroite, route, etapeCircuit,
-                 ESPACE_CIRCUIT, espaceMetre, FREQUENCE_METRE);
+                        ESPACE_CIRCUIT, espaceMetre, FREQUENCE_METRE);
       
          do{
             amplitudeActuel  = entierAleatoire(-amplitudeVirage, amplitudeVirage);
@@ -117,6 +124,44 @@ int main() {
       
    }while(recommencer(OUI,NON)); 
    return EXIT_SUCCESS;
+}
+
+
+
+
+//===============================     texteSaise     ==============================//
+
+string textSaisie(string texte, int borne_inf, int borne_sup, int espaceAlligne,
+                  int espaceBorne){
+   
+   string textSaisie = texte;
+   
+   
+   for(int espace = textSaisie.size(); espace <= espaceAlligne; espace ++){
+      textSaisie += " ";
+   }
+   
+   textSaisie += "[";
+   
+   
+   string borne_inf_txt = "y";    //A remplacer par to_string(borne_inf);
+   
+   for(int espace = borne_inf_txt.size(); espace <= espaceBorne; espace++){
+      textSaisie += " ";
+   }
+   
+   textSaisie += (borne_inf_txt + " et ");
+   
+   
+   string borne_sup_txt = "y";    //A remplacer par to_string(borne_sup);
+   
+   for(int espace = borne_sup_txt.size(); espace <= espaceBorne; espace++){
+      textSaisie += " ";
+   }
+   
+   textSaisie += (borne_sup_txt + "] : ");
+   
+   return textSaisie;
 }
 
 
