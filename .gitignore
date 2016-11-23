@@ -41,3 +41,5 @@
  nbdist/
  nbactions.xml
  nb-configuration.xml
+cmake-build-debug/
+
