@@ -32,7 +32,7 @@
 using namespace std;
 
 
-int saisie(int borne_inf, int borne_sup, string textSaisie);
+int saisie(int borneMin, int borneMax, string textSaisie);
 
 bool recommencer(char OUI, char NON);
 

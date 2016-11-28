@@ -55,7 +55,7 @@ string aligneTexte(const string& texte, const int borneInf, const int borneSup,
                    const int espaceAligne, const int espaceBorne);
 
 
-//calcul le nombre de chiffres dans un nombre
+//retourne le nombre de chiffres dans un nombre
 int enumerationChiffre(const int nombre);
 
 
@@ -113,10 +113,10 @@ int main() {
 
    const int FREQUENCE_METRE  =  10;
 
-   const int ESPACE_CIRCUIT  =  0;
+   const int ESPACE_CIRCUIT  =  6;
    
-   const int ESPACE_TEXTE_SAISIE  =  25;
-   const int ESPACE_BORNE_SAISIE  =   5;
+   const int ESPACE_TEXTE_SAISIE  =  26;
+   const int ESPACE_BORNE_SAISIE  =   4;
 
    
    
@@ -182,7 +182,7 @@ int main() {
       
       largeurTotale    =  saisie(LARG_TOTALE_MIN,
                                  LARG_TOTALE_MAX,
-                                 aligneTexte("Largeur Totale",
+                                 aligneTexte("Largeur totale",
                                              LARG_TOTALE_MIN,
                                              LARG_TOTALE_MAX,
                                              ESPACE_TEXTE_SAISIE,
@@ -273,8 +273,7 @@ string aligneTexte(const string& texte, const int borneInf, const int borneSup,
    texteSaisie += "[";
 
 
-   string borneInfToStr = "y"; //A remplacer par to_string(borne_inf);
-   //string borneInfToStr = to_string(borneInf);
+   string borneInfToStr = to_string(borneInf);
 
    for (espace = borneInfToStr.size(); espace <= espaceBorne; espace++) {
       texteSaisie += " ";
@@ -283,8 +282,7 @@ string aligneTexte(const string& texte, const int borneInf, const int borneSup,
    texteSaisie += (borneInfToStr + " et ");
 
 
-   string borneSupToStr = "y"; //A remplacer par to_string(borne_sup);
-   //string borneSupToStr = to_string(borneSup);
+   string borneSupToStr = to_string(borneSup);
 
    for (espace = borneSupToStr.size(); espace <= espaceBorne; espace++) {
       texteSaisie += " ";
