@@ -16,7 +16,7 @@
  *             3. Propose à l'utilsateur de recommencer l'opération. S'il accèpte, 
  *                recommence à partir du point de saisie. Sinon, quitte le programme.
 
- Remarque(s) : <à compléter>
+ Remarque(s) : -
 
  Compilateur : MinGW-g++ 4.8.1
  -----------------------------------------------------------------------------------
@@ -44,14 +44,24 @@ using namespace std;
 //=================================================================================//
 
 
+//Affiche le circuit
+void afficheCircuit(int espaceGauche, int espaceDroite, const string& route,
+                    int etapeCircuit, int espaceCircuit, int espaceMetre,
+                    int frequenceMetre);
+
+
 // Fonction qui permet de générer un texte de saisie pour la fonction saisie().
-string texteSaisie(const string& texte, const int borne_inf, const int borne_sup,
-                   const int espaceAlligne, const int espaceBorne);
+string aligneTexte(const string& texte, const int borneInf, const int borneSup,
+                   const int espaceAligne, const int espaceBorne);
+
+
+//calcul le nombre de chiffres dans un nombre
+int enumerationChiffre(const int nombre);
 
 
 // Fonction qui demande à l'utilisateur d'entrée une valeur comprise dans les bornes
 // données en paramètres et la retourne.
-int saisie(const int borne_inf, const int borne_sup, const string& textSaisie);
+int saisie(const int borneInf, const int borneSup, const string& textSaisie);
 
 
 // Permet d'afficher le circuit
@@ -62,7 +72,7 @@ void afficheCircuit(const int espaceGauche, const int espaceDroite, const string
 
 // Retourne un entier aléatoire dans un intervalle compris entre les bornes données en
 // paramètre.
-int entierAleatoire(const int borne_min, const int borne_max);
+int entierAleatoire(const int borneInf, const int borneSup);
 
 
 // Demande à l'utilisateur s'il souhaite recommencer, retourne vrai si oui, faux sinon.
@@ -121,23 +131,17 @@ int main() {
    int largeurRoute;
    int largeurTotale;
 
-
    float espaceSymetrique;       // Espace à gauche et à droite de la route
 
    int espaceGauche;             // Espace à gauche de la route
    int espaceDroite;             // Espace à droite de la route
    int espaceMetre;              // Espacement nécessaire pour afficher les mètres
-
+   
    int amplitudeActuel;
-
+   
    string route;
 
-
    
-   
-   //Iinitialisation du générateur aléatoire
-   srand((unsigned) time(NULL));
-
    
 
    do { /*----------------------     Boucle Recommencer     -----------------------*/
@@ -149,15 +153,42 @@ int main() {
       /*---------------------------------------------------------------------------*/
       
 
-      longueurCircuit  =  saisie(LONG_CIRC_MIN, LONG_CIRC_MAX,texteSaisie("Longueur du Circuit", LONG_CIRC_MIN, LONG_CIRC_MAX, ESPACE_TEXTE_SAISIE, ESPACE_BORNE_SAISIE));
-      amplitudeVirage  =  saisie(AMPLI_MIN, AMPLI_MAX, texteSaisie("Amplitude max des virages", AMPLI_MIN, AMPLI_MAX, ESPACE_TEXTE_SAISIE, ESPACE_BORNE_SAISIE));
-      largeurRoute     =  saisie(LARG_ROUTE_MIN, LARG_ROUTE_MAX, texteSaisie("Largeur de la route", LARG_ROUTE_MIN, LARG_ROUTE_MAX, ESPACE_TEXTE_SAISIE, ESPACE_BORNE_SAISIE));
-      largeurTotale    =  saisie(LARG_TOTALE_MIN, LARG_TOTALE_MAX, texteSaisie("Largeur Totale", LARG_TOTALE_MIN, LARG_TOTALE_MAX, ESPACE_TEXTE_SAISIE, ESPACE_BORNE_SAISIE));
-
-      /*amplitudeVirage = saisie(AMPLI_MIN, AMPLI_MAX, "Amplitue [ " +to_string(AMPLI_MIN)+ " - " +to_string(AMPLI_MAX)+" ] : ");
-      largeurRoute = saisie(LARG_ROUTE_MIN, LARG_ROUTE_MAX, "Largueur Route [ "+to_string(LARG_ROUTE_MIN)+  " - " +to_string(LARG_ROUTE_MAX)+  " ] : ");
-      largeurTotale = saisie(LARG_TOTALE_MIN, LARG_TOTALE_MAX, "Largeur Totale [ " +to_string(LARG_TOTALE_MIN)+ " - " +to_string(LARG_TOTALE_MAX)+  " ] : ");*/
-
+      longueurCircuit  =  saisie(LONG_CIRC_MIN,
+                                 LONG_CIRC_MAX,
+                                 aligneTexte("Longueur du Circuit",
+                                             LONG_CIRC_MIN,
+                                             LONG_CIRC_MAX,
+                                             ESPACE_TEXTE_SAISIE,
+                                             ESPACE_BORNE_SAISIE));
+      
+      
+      amplitudeVirage  =  saisie(AMPLI_MIN,
+                                 AMPLI_MAX, 
+                                 aligneTexte("Amplitude max des virages",
+                                             AMPLI_MIN,
+                                             AMPLI_MAX,
+                                             ESPACE_TEXTE_SAISIE,
+                                             ESPACE_BORNE_SAISIE));
+      
+      
+      largeurRoute     =  saisie(LARG_ROUTE_MIN,
+                                 LARG_ROUTE_MAX,
+                                 aligneTexte("Largeur de la route",
+                                             LARG_ROUTE_MIN,
+                                             LARG_ROUTE_MAX,
+                                             ESPACE_TEXTE_SAISIE,
+                                             ESPACE_BORNE_SAISIE));
+      
+      
+      largeurTotale    =  saisie(LARG_TOTALE_MIN,
+                                 LARG_TOTALE_MAX,
+                                 aligneTexte("Largeur Totale",
+                                             LARG_TOTALE_MIN,
+                                             LARG_TOTALE_MAX,
+                                             ESPACE_TEXTE_SAISIE,
+                                             ESPACE_BORNE_SAISIE));
+      
+      
       
       
       /*---------------------------------------------------------------------------*/
@@ -166,7 +197,7 @@ int main() {
       
       
       //Divise la route en 2 afin de pouvoir fixer l'espace à gauche et droite
-      espaceSymetrique = (largeurTotale - largeurRoute) / 2.0;
+      espaceSymetrique = (largeurTotale - largeurRoute) / 2.0f;
 
       
       //Défini les espaces
@@ -175,9 +206,11 @@ int main() {
 
       
       //Défini l'espacement nécessaire pour afficher des bordures de routes alignées.
-      espaceMetre = floor(log10(longueurCircuit)) + 1;
-
-
+      espaceMetre = enumerationChiffre(longueurCircuit);
+      
+      
+      
+      
       
       /*---------------------------------------------------------------------------*/
       /*-----------------------    Création de la route    ------------------------*/
@@ -188,6 +221,7 @@ int main() {
       for (int segmentRoute = 1; segmentRoute <= largeurRoute; segmentRoute++) {
          route += "=";
       }
+      
       
       
       
@@ -207,16 +241,15 @@ int main() {
             amplitudeActuel = entierAleatoire(-amplitudeVirage, amplitudeVirage);
          } while (!(espaceGauche > -amplitudeActuel && espaceDroite > amplitudeActuel));
 
-         espaceGauche += amplitudeActuel;
-         espaceDroite -= amplitudeActuel;
+	 espaceGauche += amplitudeActuel;
+	 espaceDroite -= amplitudeActuel;
       }
-
-
+      
    } while (recommencer(OUI, NON));
    
    return EXIT_SUCCESS;
-   
 }
+
 
 
 
@@ -225,37 +258,39 @@ int main() {
 //=================================================================================//
 
 
-string texteSaisie(const string& texte, const int borne_inf, const int borne_sup,
-                   const int espaceAlligne, const int espaceBorne) {
+string aligneTexte(const string& texte, const int borneInf, const int borneSup,
+                   const int espaceAligne, const int espaceBorne) {
 
    int espace;
    string texteSaisie = texte;
-
+   
    //Ajoute un nombre d'espace nécessaire pour que les ":" de chaques saisies soient
    //alignés.
-   for (espace = texte.size(); espace <= espaceAlligne; espace++) {
+   for (espace = texte.size(); espace <= espaceAligne; espace++) {
       texteSaisie += " ";
    }
 
    texteSaisie += "[";
 
 
-   string borne_inf_txt = "y"; //A remplacer par to_string(borne_inf);
+   string borneInfToStr = "y"; //A remplacer par to_string(borne_inf);
+   //string borneInfToStr = to_string(borneInf);
 
-   for (espace = borne_inf_txt.size(); espace <= espaceBorne; espace++) {
+   for (espace = borneInfToStr.size(); espace <= espaceBorne; espace++) {
       texteSaisie += " ";
    }
 
-   texteSaisie += (borne_inf_txt + " et ");
+   texteSaisie += (borneInfToStr + " et ");
 
 
-   string borne_sup_txt = "y"; //A remplacer par to_string(borne_sup);
+   string borneSupToStr = "y"; //A remplacer par to_string(borne_sup);
+   //string borneSupToStr = to_string(borneSup);
 
-   for (espace = borne_sup_txt.size(); espace <= espaceBorne; espace++) {
+   for (espace = borneSupToStr.size(); espace <= espaceBorne; espace++) {
       texteSaisie += " ";
    }
 
-   texteSaisie += (borne_sup_txt + "] : ");
+   texteSaisie += (borneSupToStr + "] : ");
 
    return texteSaisie;
 }
@@ -267,7 +302,7 @@ string texteSaisie(const string& texte, const int borne_inf, const int borne_sup
 //=================================================================================//
 
 
-int saisie(const int borne_inf, const int borne_sup, const string& textSaisie) {
+int saisie(const int borneInf, const int borneSup, const string& textSaisie) {
 
    int val;
    bool cinFail;
@@ -278,19 +313,36 @@ int saisie(const int borne_inf, const int borne_sup, const string& textSaisie) {
 
       cout << textSaisie;
       cin  >> val;
-
+      
       //répare le buffer en cas de nécessité
       if (cin.fail()) {
 
          cinFail = true;
          cin.clear();
+         
       }
       VIDER_BUFFER;
 
-   } while (val < borne_inf || val > borne_sup || cinFail);
+   } while (val < borneInf || val > borneSup || cinFail);
 
    return val;
 }
+
+
+
+
+
+//=================================================================================//
+//==========================<       nombreChiffre        >=========================//
+//=================================================================================//
+
+
+int enumerationChiffre(const int nombre) {
+
+	return floor(log10(nombre)) + 1;
+
+}
+
 
 
 
@@ -323,10 +375,21 @@ void afficheCircuit(const int espaceGauche, const int espaceDroite, const string
 //=================================================================================//
 
 
-int entierAleatoire(const int borne_min, const int borne_max) {
+int entierAleatoire(const int borneInf, const int borneSup) {
+   
+   static bool initRand = true;
+   
+   if(initRand){
+       
+      //Iinitialisation du générateur aléatoire 
+      srand((unsigned) time(NULL));
+
+      initRand = false;
+   }
    //le % permet de retourner trouver un intervalle
-   return (rand() % (borne_max - borne_min + 1)) +borne_min;
+   return (rand() % (borneSup - borneInf + 1)) +borneInf;
 }
+
 
 
 
@@ -346,8 +409,7 @@ bool recommencer(const char OUI, const char NON) {
       cin  >> recommencer;
       VIDER_BUFFER;
 
-      recommencer = (char) toupper(recommencer); //met le char entré en majuscule, 
-                                                 //cast car toupper retourne un int
+      recommencer = (char) toupper(recommencer);
 
       sortie = recommencer == OUI || recommencer == NON;
 
