@@ -197,7 +197,7 @@ int main() {
       
       
       //Divise la route en 2 afin de pouvoir fixer l'espace à gauche et droite
-      espaceSymetrique = (largeurTotale - largeurRoute) / 2.0f;
+      espaceSymetrique = (largeurTotale - largeurRoute) / 2.f;
 
       
       //Défini les espaces
